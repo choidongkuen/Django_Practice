@@ -1,8 +1,9 @@
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 
-from board.models import Question
+from board.models import Question, Choice
 
 
 # shortcut -> 단축 함수(내장 함수)
@@ -22,7 +23,19 @@ def detail(request, board_id):
 
 
 def vote(request, board_id):
-    return HttpResponse("vote 입니다.")
+    p = get_object_or_404(Question, pk=board_id)
+    try:
+        selected_choice = p.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        return render(request, 'board/detail.html', {
+            'question': p,
+            'error_message': "You didn't select a choice[plz click any choice you want]",
+        })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+
+        return HttpResponseRedirect(reverse('board:results', args=(p.id,)))
 
 
 def results(request, board_id):
