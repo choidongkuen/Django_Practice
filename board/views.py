@@ -1,15 +1,18 @@
 # Create your views here.
-def index():
-    return None
+from django.http import HttpResponse
 
 
-def detail():
-    return None
+def index(request):
+    return HttpResponse("index 입니다.")
 
 
-def vote():
-    return None
+def detail(request, board_id):
+    return HttpResponse(str(board_id) + "detail 입니다.")
 
 
-def results():
-    return None
+def vote(request, board_id):
+    return HttpResponse("vote 입니다.")
+
+
+def results(request, board_id):
+    return HttpResponse("result 입니다.")
