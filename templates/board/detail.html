@@ -1,12 +1,13 @@
 <!-- 특정 Question Detail -->
-<h1>{{ question.content }}</h1>
+<h2>Question: {{ question.content }}</h2>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <form action="{% url 'board:vote' question.id %}" method="post">
     {% csrf_token %}
     {% for choice in question.choice_set.all %}
-        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"/>
+        <!-- form + input : name=value 값으로 전송 -->
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" checked/>
         <label for="choice{{ forloop.counter }}">{{ choice.content }}</label><br/>
     {% endfor %}
     <input type="submit" value="Vote"/>
