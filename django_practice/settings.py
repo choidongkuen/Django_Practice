@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "board.apps.BoardConfig",
+    "board.apps.BoardConfig",  # board app
+    "pybo.apps.PyboConfig",  # pybo app
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
