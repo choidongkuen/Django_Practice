@@ -18,8 +18,4 @@ def detail(request, question_id):
 def answer_create(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     question.answer_set.create(content=request.POST.get('content'))
-
-    # answer = Answer(question=question, content=request.POST.get("content"))
-    # answer.save() -> 가능
-
-    return redirect('pybo:detail', question_id=question_id)  # detail redirect
+    return redirect('pybo:detail', question_id=question.id)  # detail redirect

@@ -1,27 +1,46 @@
 <!-- css 파일 적용 하는 코드 -->
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
 
-<h2>{{ question.subject }}</h2>
+<div class="container my-3">
+    <h2 class="border-bottom py-2">{{ question.subject }}</h2>
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text" style="white-space: pre-line;">
+                {{ question.content }}
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="badge badge-light p-2">
+                    {{ question.created_at }}
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div>
-    {{ question.content }}
-</div>
-<br>
+    <h5 class="border-bottom my-3 py-2">
+        {{ question.answer_set.count }}
+    </h5>
+    {% for answer in question.answer_set.all %}
+        <div class="card my-3">
+            <div class="card-body">
+                <div class="card-text" style="white-space: pre-line;">
+                    {{ answer.content }}
+                </div>
+                <div class="d-flex justify-content-end">
+                    <div class="badge badge-light p-2">
+                        {{ answer.created_at }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<h5>{{ question.answer_set.count }} 개의 답변이 존재합니다.</h5>
-<div>
-    <ul>
-        {% for answer in question.answer_set.all %}
-            <li>{{ answer.content }}</li>
-        {% endfor %}
-    </ul>
+    {% endfor %}
+    <form action="{% url 'pybo:answer_create' question.id %}"
+          method="post" class="my-3">
+        {% csrf_token %}
+        <div class="form-group">
+            <textarea name="content" id="content" class="form-control" rows="10"></textarea>
+        </div>
+        <input type="submit" value="답변 등록" class="btn btn-primary">4
+    </form>
 </div>
-<div>
-    [답변을 입력 해주세요]
-</div>
-<form action="{% url 'pybo:answer_create' question.id %}" method="post">
-    {% csrf_token %}
-    <textarea name="content" id="content" rows="15"></textarea> <!-- name 값으로 추출 -->
-    <input type="submit" value="답변 등록">
-</form>
