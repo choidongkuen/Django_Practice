@@ -1,3 +1,7 @@
+<!-- css 파일 적용 하는 코드 -->
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
 <h2>{{ question.subject }}</h2>
 
 <div>
@@ -5,7 +9,7 @@
 </div>
 <br>
 
-<h5>{{ question.answer_set.count }} 개의 답변이 있습니다.</h5>
+<h5>{{ question.answer_set.count }} 개의 답변이 존재합니다.</h5>
 <div>
     <ul>
         {% for answer in question.answer_set.all %}
