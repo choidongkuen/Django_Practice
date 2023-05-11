@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
 from pybo.models import Question
-from .forms import QuestionFrom
+from .forms import QuestionFrom, AnswerForm
 
 
 # Question 모델 데이터 작성한 날짜의 역순(내림 차순) 으로 조회
@@ -17,14 +17,23 @@ def detail(request, question_id):
     return render(request, "pybo/detail.html", {"question": question})
 
 
-# Answer 모델 등록
+# 답변 등록
 def answer_create(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    question.answer_set.create(content=request.POST.get('content'))
-    return redirect('pybo:detail', question_id=question.id)  # detail redirect
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.question = question
+            answer.save()
+            return redirect('pybo:detail', question_id=question.id)  # Question detail 페이지
+    else:
+        form = AnswerForm()
+    context = {"question": question, "form": form}
+    return render(request, "pybo/detail.html", context)
 
 
-# Question 모델 등록
+# 질문 등록
 def question_create(request):
     # 저장하기 누른 경우
     if request.method == 'POST':
