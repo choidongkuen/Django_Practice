@@ -11,7 +11,7 @@ from board.models import Question, Choice
 
 # index : main
 def index(request):
-    latest_question_list = Question.objects.all().order_by('-create_date')[:5]
+    latest_question_list = Question.objects.all().order_by('-created_at')[:5]
     context = {'latest_question_list': latest_question_list}
     return render(request, 'board/index.html', context)
     # return HttpResponse("index 입니다.")
