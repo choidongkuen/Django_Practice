@@ -1,8 +1,11 @@
-textarea {
-    width: 100%;
-}
+/*textarea {*/
+/*    width: 100%;*/
+/*}*/
 
 
-input[type=submit] {
-    margin-top: 10px;
-}
+/*input[type=submit] {*/
+/*    margin-top: 10px;*/
+/*}*/
+
+/*Question : subject, content, created_at, updated_at*/
+/*Answer : question, content, created_at, updated_at*/

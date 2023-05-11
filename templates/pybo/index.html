@@ -1,31 +1,34 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+{% extends 'base.html' %}
+{% block content %}
 
-<div class="container my-3">
-    <table class="table">
-        <thead>
-        <tr class="thead-dark">
-            <th>번호</th>
-            <th>제목</th>
-            <th>작성 일시</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% if question_list %}
-            {% for question in question_list %}
-                <tr>
-                    <td>{{ forloop.counter }}</td> <!-- 번호 -->
-                    <td>
-                        <a href="{% url 'pybo:detail' question.id %}">{{ question.subject }}</a>
-                    </td> <!-- 제목 -->
-                    <td>{{ question.created_at }}</td> <!-- 작성 일시 -->
-                </tr>
-            {% endfor %}
-        {% else %}
-            <tr>
-                <td colspan="3">질문이 없습니다.</td>
+    <div class="container my-3">
+        <table class="table">
+            <thead>
+            <tr class="thead-dark">
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성 일시</th>
             </tr>
-        {% endif %}
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+            {% if question_list %}
+                {% for question in question_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td> <!-- 번호 -->
+                        <td>
+                            <a href="{% url 'pybo:detail' question.id %}">{{ question.subject }}</a>
+                        </td> <!-- 제목 -->
+                        <td>{{ question.created_at }}</td> <!-- 작성 일시 -->
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3">질문이 없습니다.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        <!-- 질문 등록 -->
+        <a href="{% url 'pybo:question_create' %}" class="btn btn-primary"></a>
+    </div>
+{% endblock %}
