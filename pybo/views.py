@@ -26,6 +26,16 @@ def answer_create(request, question_id):
 
 # Question 모델 등록
 def question_create(request):
-    form = QuestionFrom()
-    context = {"form": form}
+    # 저장하기 누른 경우
+    if request.method == 'POST':
+        form = QuestionFrom(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.save()
+            return redirect('pybo:index')
+
+    # index.html 에서 질문 등록하기 누른 경우
+    else:
+        form = QuestionFrom()
+    context = {'form': form}
     return render(request, 'pybo/question_form.html', context)
