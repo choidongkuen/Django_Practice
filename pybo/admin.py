@@ -9,6 +9,7 @@ class AnswerInline(admin.TabularInline):
 
 
 class QuestionAdmin(admin.ModelAdmin):
+    search_fields = ["subject"]
     fieldsets = [
         ('Subject Information', {'fields': ['subject']}),
         ('Content Information', {'fields': ['content']})
