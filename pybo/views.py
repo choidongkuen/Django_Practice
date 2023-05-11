@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 
 from pybo.models import Question
 
@@ -13,3 +13,13 @@ def index(request):
 def detail(request, question_id):
     question = Question.objects.get(pk=question_id)
     return render(request, "pybo/detail.html", {"question": question})
+
+
+def answer_create(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    question.answer_set.create(content=request.POST.get('content'))
+
+    # answer = Answer(question=question, content=request.POST.get("content"))
+    # answer.save() -> 가능
+
+    return redirect('pybo:detail', question_id=question_id)  # detail redirect
