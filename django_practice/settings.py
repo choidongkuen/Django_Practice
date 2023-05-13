@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "board.apps.BoardConfig",  # board app
     "pybo.apps.PyboConfig",  # pybo app
-    "common.apps.CommonConfig"  # common app -> 공통 기능
+    "common.apps.CommonConfig",  # common app -> 공통 기능
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
