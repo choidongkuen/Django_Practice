@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from pybo import views
+
 # /board/ -> index() -> index.html
 # /board/5/ -> detail()[5번의 detail] -> detail.html
 # /board/5/vote/ -> vote()[5번 vote] -> detail.html 넘어온 post 처리
@@ -27,5 +29,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("board/", include("board.urls")),
     path("pybo/", include("pybo.urls")),
-    path("common/", include("common.urls"))
+    path("common/", include("common.urls")),
+    path("", views.index, name="index"),  # "/" 페이지에 해당하는 urlpatterns
 ]
