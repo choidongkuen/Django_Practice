@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -23,12 +24,14 @@ def detail(request, question_id):
 
 
 # 답변 등록
+@login_required(login_url='common:login')  # 로그인이 안된 상태라면 자동으로 로그인 화면으로 이동
 def answer_create(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():
             answer = form.save(commit=False)
+            answer.author = request.user  # request.user => 현재 로그인한 계정의 User 모델 객체
             answer.question = question
             answer.save()
             return redirect('pybo:detail', question_id=question.id)  # Question detail 페이지
@@ -39,12 +42,14 @@ def answer_create(request, question_id):
 
 
 # 질문 등록
+@login_required(login_url='common:login')
 def question_create(request):
     # 저장하기 누른 경우
     if request.method == 'POST':
         form = QuestionFrom(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
+            question.author = request.user  # request.user => 현재 로그인한 계정의 User 모델 객체
             question.save()
             return redirect('pybo:index')
 
