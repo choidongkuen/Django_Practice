@@ -9,3 +9,8 @@
 
 /*Question : subject, content, created_at, updated_at*/
 /*Answer : question, content, created_at, updated_at*/
+
+.comment {
+    border-top: dotted 1px #ddd;
+    font-size: 0.7em;
+}
