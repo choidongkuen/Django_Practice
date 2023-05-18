@@ -13,8 +13,13 @@ urlpatterns = [
     path("question/delete/<int:question_id>/", views.question_delete, name="question_delete"),
     path("answer/modify/<int:answer_id>/", views.answer_modify, name="answer_modify"),
     path("answer/delete/<int:answer_id>/", views.answer_delete, name="answer_delete"),
+
     path("comment/create/question/<int:question_id>/", views.comment_create_question, name="comment_create_question"),
-    path("comment/create/question/<int:comment_id>/", views.comment_update_question, name="comment_update_question"),
-    path("comment/delete/question/<int:comment_id>/", views.comment_delete_question, name="comment_delete_question")
+    path("comment/update/question/<int:comment_id>/", views.comment_update_question, name="comment_update_question"),
+    path("comment/delete/question/<int:comment_id>/", views.comment_delete_question, name="comment_delete_question"),
+
+    path("comment/create/answer/<int:answer_id>/", views.comment_create_answer, name="comment_create_answer"),
+    path("comment/update/answer/<int:comment_id>/", views.comment_update_answer, name="comment_update_answer"),
+    path("comment/delete/answer/<int:comment_id>/", views.comment_delete_answer, name="comment_delete_answer")
 
 ]
