@@ -1,9 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 
 from pybo.models import Question
-from .forms import QuestionFrom, AnswerForm
+from .forms import QuestionForm, AnswerForm
 
 
 # Question 모델 데이터 작성한 날짜의 역순(내림 차순) 으로 조회
@@ -46,7 +47,7 @@ def answer_create(request, question_id):
 def question_create(request):
     # 저장하기 누른 경우
     if request.method == 'POST':
-        form = QuestionFrom(request.POST)
+        form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
             question.author = request.user  # request.user => 현재 로그인한 계정의 User 모델 객체
@@ -55,6 +56,28 @@ def question_create(request):
 
     # index.html 에서 질문 등록하기 누른 경우
     else:
-        form = QuestionFrom()
+        form = QuestionForm()
+    context = {'form': form}
+    return render(request, 'pybo/question_form.html', context)
+
+
+# 질문 수정
+@login_required(login_url='common:login')
+def question_modify(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+
+    if request.user != question.author:  # 요청한 user 와 해당 question author 다르면
+        messages.error(request, '수정권한이 없습니다.')
+        return redirect('pybo:detail', question_id=question.id)
+
+    if request.method == "POST":
+        form = QuestionForm(request.POST, instance=question)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.author = request.user
+            question.save()
+            return redirect('pybo:detail', question_id=question.id)
+    else:
+        form = QuestionForm(instance=question)
     context = {'form': form}
     return render(request, 'pybo/question_form.html', context)
